@@ -12,7 +12,7 @@ import (
 )
 
 // 和暦を西暦に変換
-func converToChristianCal(date string, isLong bool) {
+func convertToChristianCal(date string, isLong bool) {
 
 	var (
 		isDigit     = false
@@ -74,7 +74,7 @@ func converToChristianCal(date string, isLong bool) {
 }
 
 // 西暦を和暦に変換
-func converToJapaneseCal(date string, isLong, isGrif bool) {
+func convertToJapaneseCal(date string, isLong, isGrif bool) {
 
 	var (
 		t           time.Time
@@ -172,8 +172,8 @@ func main() {
 		fmt.Println("ｊオプションとｃオプションは同時に指定できません")
 		os.Exit(1)
 	} else if opt.Jpn {
-		converToJapaneseCal(args[0], opt.Long, opt.Grif)
+		convertToJapaneseCal(args[0], opt.Long, opt.Grif)
 	} else if opt.Chr {
-		converToChristianCal(args[0], opt.Long)
+		convertToChristianCal(args[0], opt.Long)
 	}
 }
