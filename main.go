@@ -20,7 +20,7 @@ func getDateAndEra(date string) (y, m, d, era int) {
 		dateStr     []string
 	)
 
-	// どの年号か判別してera（元号)を求める
+	// dateの中から各元号に対応する文字を見つけてeraに格納
 	if strings.ContainsAny(date, "明MmＭｍ") {
 		era = 1 // 明治
 	} else if strings.ContainsAny(date, "大TtＴｔ") {
@@ -38,7 +38,7 @@ func getDateAndEra(date string) (y, m, d, era int) {
     // dateの前処理(最後が文字でないと次の処理で最後の数字が取り出せないため)
 	date = date + "."
 
-    // 与えられた文字列から数字の部分だけ取り出す
+    // dateから数字の部分だけ取り出す
 	for _, char := range date {
 		if unicode.IsDigit(char) {
 			str = str + string(char)
@@ -55,17 +55,18 @@ func getDateAndEra(date string) (y, m, d, era int) {
 		}
 	}
 
-	// 日付を正しく取得できてなかった場合(dateStrの長さが３でない)
+	// dateStrの長さが３でないときは失敗
 	if len(dateStr) != 3 {
        fmt.Println("日付の取得に失敗しました")
        os.Exit(1)
     }
 
-	// 日付を取得
+	// 年月日をstringからintにする
 	y, _ = strconv.Atoi(dateStr[0])
 	m, _ = strconv.Atoi(dateStr[1])
 	d, _ = strconv.Atoi(dateStr[2])
 
+    // 結果を返す
     return y, m, d, era
 }
 
@@ -75,6 +76,7 @@ func convertToChristianCal(y, m , d, era int, kanji bool) string {
 
     var magicNumber int
 
+    // eraから各元号の計算に使うmagicnumberを求める
     switch era {
     case 1: // 明治
         magicNumber = 1868
@@ -88,10 +90,12 @@ func convertToChristianCal(y, m , d, era int, kanji bool) string {
         magicNumber = 2018
     }
 
+    // 年月日を文字列にする
     year := strconv.Itoa(y + magicNumber)
     month := strconv.Itoa(m)
     date := strconv.Itoa(d)
 
+    // 日付を作成して返す
     if kanji {
         return year + "年" + month + "月" + date + "日"
     } else {
@@ -110,7 +114,8 @@ func convertToJapaneseCal(y, m, d int, kanji bool) string {
     // 日付の作成
     t := time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.Local)
 
-    // 元号を判定する
+    // 作成した日付と各年号の最初の日を比較して計算用のmagicnumberと
+    // 元号の文字列（アルファベットと漢字）を求める
     if t.Before(time.Date(1912, 7, 30, 0, 0, 0, 0, time.Local)) {
         magicNumber = 1867
         name = "M"
@@ -133,6 +138,7 @@ func convertToJapaneseCal(y, m, d int, kanji bool) string {
         nameK = "令和"
     }
 
+    // 元号＋年の作成
     year := strconv.Itoa(y - magicNumber)
     if kanji {
         if year == "1" {
@@ -144,9 +150,11 @@ func convertToJapaneseCal(y, m, d int, kanji bool) string {
         year = name + year
     }
 
+    // 月と日をstringにする
     month := strconv.Itoa(m)
     date := strconv.Itoa(d)
 
+    // 日付を返す
     if kanji {
         return year + "年" + month + "月" + date + "日"
     } else {
@@ -156,35 +164,48 @@ func convertToJapaneseCal(y, m, d int, kanji bool) string {
 
 func main() {
 
+    // オプションの作成
     type option struct {
         Kanji bool `short:"k" long:"kanji" description:"日付をＸ年Ｘ月Ｘ日の形式で返します"`
     }
 
+    // convertToChristianCalとconvertToJapaneseCalから帰ってきた文字列の保持用
+    var resalt string
+ 
     var opt option
 
+    // パース
     var parser = flags.NewParser(&opt, flags.Default)
 
+    // コマンド名と使用法の指定
     parser.Name = "Era"
     parser.Usage = "[OPTIONS] date"
 
-	args, err := parser.Parse()
+	// argsを取り出す（失敗したらhelpを出して終わる）
+    args, err := parser.Parse()
 	if err != nil {
 		parser.WriteHelp(os.Stdout)
 		os.Exit(1)
 	}
 
-	if len(args) == 0 || len(args) > 1 {
+	// argsが1でないときもhelpをだして終了
+    if len(args) == 0 || len(args) > 1 {
 		parser.WriteHelp(os.Stdout)
 		os.Exit(1)
 	}
 
+    // 日付と元号の取得
     y, m, d, era := getDateAndEra(args[0])
 
+    // eraに入ってる値に応じて和暦にするのか西暦にするのか判定
     if era == 0 {
-        fmt.Println(convertToJapaneseCal(y, m, d, opt.Kanji))
+        resalt = convertToJapaneseCal(y, m, d, opt.Kanji)
     } else {
-        fmt.Println(convertToChristianCal(y, m, d, era, opt.Kanji))
+        resalt = convertToChristianCal(y, m, d, era, opt.Kanji)
     }
+
+    // 結果の出力
+    fmt.Println(resalt)
 }
 
 
