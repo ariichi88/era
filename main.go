@@ -154,7 +154,7 @@ func convertToJapaneseCal(y, m, d int, kanji bool) string {
     month := strconv.Itoa(m)
     date := strconv.Itoa(d)
 
-    // 日付を返す
+    // 日付を作成して返す
     if kanji {
         return year + "年" + month + "月" + date + "日"
     } else {
