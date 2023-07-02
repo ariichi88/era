@@ -10,4 +10,6 @@ Application Options:
 
 Help Options:  
   -h, --help  Show this help message
-`  
+
+注意書き:  
+  数字が全角だとうまく動きません    
