@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 	"unicode"
+	"golang.org/x/text/width"
 
     flags "github.com/jessevdk/go-flags"
 )
@@ -35,7 +36,10 @@ func getDateAndEra(date string) (y, m, d, era int) {
         era = 0 // 西暦
     }
 
-    // dateの前処理(最後が文字でないと次の処理で最後の数字が取り出せないため)
+    // dateの前処理
+	// 数字が半角でないとうまくいかないため
+	// 最後が文字でないと次の処理で最後の数字が取り出せないため
+	date = width.Fold.String(date)
 	date = date + "."
 
     // dateから数字の部分だけ取り出す
