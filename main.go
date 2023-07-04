@@ -37,10 +37,7 @@ func getDateAndEra(date string) (y, m, d, era int) {
     }
 
     // dateの前処理
-	// 数字が半角でないとうまくいかないため
-	// 最後が文字でないと次の処理で最後の数字が取り出せないため
-	date = width.Fold.String(date)
-	date = date + "."
+	date = width.Fold.String(date) + "."
 
     // dateから数字の部分だけ取り出す
 	for _, char := range date {
