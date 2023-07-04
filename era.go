@@ -8,13 +8,13 @@ import (
     flags "github.com/jessevdk/go-flags"
 )
 
-// 文字列から日付及び元号を取り出す
 func getDateAndEra(date string) {
 
 	var (
 		isDigit     = false
 		str         = ""
 		dateStr     []string
+		dateInt     []int
 	)
 
     // dateの前処理
@@ -30,7 +30,7 @@ func getDateAndEra(date string) {
 				dateStr = append(dateStr, str)
 				str = ""
 				isDigit = false
-			} else if string(char) == "元" { // 元年を1に変換
+			} else if string(char) == "元" {
 				str = "1"
 				isDigit = true
 			}
