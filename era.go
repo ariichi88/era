@@ -21,17 +21,18 @@ func getDateEra(date string) (y, m, d, era int) {
 	)
 
 	// dateから年号を取り出す
-	if strings.Contains(date, "MｍMm明") {
+	switch {
+	case strings.Contains(date, "MｍMm明"):
 		era = 1
-	} else if strings.Contains(date, "ＨｔTt大") {
+	case strings.Contains(date, "ＨｔTt大"):
 		era = 2
-	} else if strings.Contains(date, "ＳｓSs昭") {
+	case strings.Contains(date, "ＳｓSs昭"):
 		era = 3
-	} else if strings.Contains(date, "ＨｈHh平") {
+	case strings.Contains(date, "ＨｈHh平"):
 		era = 4
-	} else if strings.Contains(date, "ＲｒRr令") {
+	case strings.Contains(date, "ＲｒRr令"):
 		era = 5
-	} else {
+	default:
 		era = 0
 	}
 
@@ -92,7 +93,7 @@ func toBC(y, m, d, era int, Kanji bool) string {
 	}
 }
 
-func toJP(y, m, d int,) string {
+func toJP(y, m, d int, Kanji bool) string {
 
 	var (
 		nameK		string
@@ -107,38 +108,44 @@ func toJP(y, m, d int,) string {
 	showa  := time.Date(1989, time.Month(1), 7, 0, 0, 0, 0, time.Local)
 	heisei := time.Date(2019, time.Month(4), 30, 0, 0, 0, 0, time.Local)
 
-	if date.Before(meiji) {
+	switch {
+	case date.Before(meiji):
 		nameK = "明治"
 		name = "M"
 		magicNumber = 1867
-	} else if date.Before(taisho) {
+	case date.Before(taisho):
 		nameK = "大正"
 		name = "T"
 		magicNumber = 1911
-	} else if date.Before(showa) {
+	case date.Before(showa):
 		nameK = "昭和"
 		name = "S"
 		magicNumber = 1924
-	} else if date.Before(heisei) {
+	case date.Before(heisei):
 		nameK = "平成"
 		name = "H"
 		magicNumber = 1988
-	} else {
+	default:
 		nameK = "令和"
 		name = "R"
 		magicNumber = 2018
 	}
 
-
-
-
-
+	if Kanji {
+		if y == 1 {
+			return fmt.Sprintf("%s元年%d月%d日", nameK, m, d)
+		} else {
+			return fmt.Sprintf("%s%d年%d月%d日", nameK, y + magicNumber, m, d)
+		}
+	} else {
+		return fmt.Sprintf("%s%d/%d/%d", name, y + magicNumber, m, d)
+	}
 }
 
 func main() {
  
     // オプションの作成
-    type option struct {
+	type option struct {
         Kanji bool `short:"k" long:"kanji" description:"日付をＸ年Ｘ月Ｘ日の形式で返します"`
     }
 
