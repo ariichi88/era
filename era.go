@@ -130,10 +130,10 @@ func toJP(y, m, d int, Kanji bool) string {
 		if y == 1 {
 			return fmt.Sprintf("%s元年%d月%d日", nameK, m, d)
 		} else {
-			return fmt.Sprintf("%s%d年%d月%d日", nameK, y + magicNumber, m, d)
+			return fmt.Sprintf("%s%d年%d月%d日", nameK, y - magicNumber, m, d)
 		}
 	} else {
-		return fmt.Sprintf("%s%d/%d/%d", name, y + magicNumber, m, d)
+		return fmt.Sprintf("%s%d/%d/%d", name, y - magicNumber, m, d)
 	}
 }
 
