@@ -20,7 +20,6 @@ func getDateEra(date string) (y, m, d, era int) {
 		dateStr     []string
 	)
 
-	// dateから年号を取り出す
 	switch {
 	case strings.Contains(date, "MｍMm明"):
 		era = 1
@@ -138,21 +137,17 @@ func toJP(y, m, d int, Kanji bool) string {
 
 func main() {
  
-    // オプションの作成
 	type option struct {
         Kanji bool `short:"k" long:"kanji" description:"日付をＸ年Ｘ月Ｘ日の形式で返します"`
     }
 
     var opt option
 
-    // パース
     var parser = flags.NewParser(&opt, flags.Default)
 
-    // コマンド名と使用法の指定
     parser.Name = "Era"
     parser.Usage = "[OPTIONS] date"
 
-	// argsを取り出す（失敗したらhelpを出して終わる）
     args, err := parser.Parse()
 	if err != nil {
 		parser.WriteHelp(os.Stdout)
