@@ -61,7 +61,6 @@ func getDateEra(date string) (y, m, d, era int) {
 		os.Exit(1)
 	}
 
-
 	y, _ = strconv.Atoi(dateStr[0])
 	m, _ = strconv.Atoi(dateStr[1])
 	d, _ = strconv.Atoi(dateStr[2])
@@ -104,19 +103,19 @@ func toJP(y, m, d int, Kanji bool) string {
 	date := time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.Local)
 
 	switch {
-	case date.Before(time.Date(1912, time.Month(7), 30, 0, 0, 0, 0, time.Local)):
+	case date.Before(time.Date(1912, time.Month(7), 31, 0, 0, 0, 0, time.Local)):
 		nameK = "明治"
 		name = "M"
 		magicNumber = 1867
-	case date.Before(time.Date(1926, time.Month(12), 25, 0, 0, 0, 0, time.Local)):
+	case date.Before(time.Date(1926, time.Month(12), 27, 0, 0, 0, 0, time.Local)):
 		nameK = "大正"
 		name = "T"
 		magicNumber = 1911
-	case date.Before(time.Date(1989, time.Month(1), 7, 0, 0, 0, 0, time.Local)):
+	case date.Before(time.Date(1989, time.Month(1), 8, 0, 0, 0, 0, time.Local)):
 		nameK = "昭和"
 		name = "S"
 		magicNumber = 1924
-	case date.Before(time.Date(2019, time.Month(4), 30, 0, 0, 0, 0, time.Local)):
+	case date.Before(time.Date(2019, time.Month(5), 1, 0, 0, 0, 0, time.Local)):
 		nameK = "平成"
 		name = "H"
 		magicNumber = 1988
