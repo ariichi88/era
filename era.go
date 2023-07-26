@@ -21,15 +21,15 @@ func getDateEra(date string) (y, m, d, era int) {
 	)
 
 	switch {
-	case strings.Contains(date, "MｍMm明"):
+	case strings.ContainsAny(date, "ＭｍMm明"):
 		era = 1
-	case strings.Contains(date, "ＨｔTt大"):
+	case strings.ContainsAny(date, "ＴｔTt大"):
 		era = 2
-	case strings.Contains(date, "ＳｓSs昭"):
+	case strings.ContainsAny(date, "ＳｓSs昭"):
 		era = 3
-	case strings.Contains(date, "ＨｈHh平"):
+	case strings.ContainsAny(date, "ＨｈHh平"):
 		era = 4
-	case strings.Contains(date, "ＲｒRr令"):
+	case strings.ContainsAny(date, "ＲｒRr令"):
 		era = 5
 	default:
 		era = 0
@@ -113,7 +113,7 @@ func toJP(y, m, d int, Kanji bool) string {
 	case date.Before(time.Date(1989, time.Month(1), 8, 0, 0, 0, 0, time.Local)):
 		nameK = "昭和"
 		name = "S"
-		magicNumber = 1924
+		magicNumber = 1925
 	case date.Before(time.Date(2019, time.Month(5), 1, 0, 0, 0, 0, time.Local)):
 		nameK = "平成"
 		name = "H"
@@ -124,14 +124,16 @@ func toJP(y, m, d int, Kanji bool) string {
 		magicNumber = 2018
 	}
 
+	y = y - magicNumber
+
 	if Kanji {
 		if y == 1 {
 			return fmt.Sprintf("%s元年%d月%d日", nameK, m, d)
 		} else {
-			return fmt.Sprintf("%s%d年%d月%d日", nameK, y - magicNumber, m, d)
+			return fmt.Sprintf("%s%d年%d月%d日", nameK, y, m, d)
 		}
 	} else {
-		return fmt.Sprintf("%s%d/%d/%d", name, y - magicNumber, m, d)
+		return fmt.Sprintf("%s%d/%d/%d", name, y, m, d)
 	}
 }
 
@@ -152,6 +154,21 @@ func main() {
 	if err != nil {
 		parser.WriteHelp(os.Stdout)
 		os.Exit(1)
+	}
+
+
+	if len(args) != 1 {
+		fmt.Println("コマンドライン引数は1つだけです")
+		parser.WriteHelp(os.Stdout)
+		os.Exit(1)
+	}
+
+	y, m, d, era := getDateEra(args[0])
+
+	if era == 0 {
+		fmt.Println(toJP(y, m, d, opt.Kanji))
+	} else {
+		fmt.Println(toBC(y, m, d, era, opt.Kanji))
 	}
 }
 
