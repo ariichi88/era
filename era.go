@@ -102,11 +102,11 @@ func toJP(y, m, d int, Kanji bool) string {
 	date := time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.Local)
 
 	switch {
-	case date.Before(time.Date(1912, time.Month(7), 31, 0, 0, 0, 0, time.Local)):
+	case date.Before(time.Date(1912, time.Month(7), 30, 0, 0, 0, 0, time.Local)):
 		nameK = "明治"
 		name = "M"
 		magicNumber = 1867
-	case date.Before(time.Date(1926, time.Month(12), 27, 0, 0, 0, 0, time.Local)):
+	case date.Before(time.Date(1926, time.Month(12), 25, 0, 0, 0, 0, time.Local)):
 		nameK = "大正"
 		name = "T"
 		magicNumber = 1911
