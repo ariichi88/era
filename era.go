@@ -140,7 +140,7 @@ func toJP(y, m, d int, Kanji bool) string {
 func main() {
  
 	type option struct {
-        Kanji bool `short:"k" long:"kanji" description:"日付をＸ年Ｘ月Ｘ日の形式で返します"`
+		Kanji bool `short:"k" long:"kanji" description:"Returns the date in the format X年X月X日"`
     }
 
     var opt option
@@ -158,7 +158,7 @@ func main() {
 
 
 	if len(args) != 1 {
-		fmt.Println("コマンドライン引数は1つだけです")
+		fmt.Println("There is only one command line argument")
 		parser.WriteHelp(os.Stdout)
 		os.Exit(1)
 	}
