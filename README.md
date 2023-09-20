@@ -1,5 +1,5 @@
 # era
-西暦と和暦を相互に変換するコマンドです  
+Converts dates alternately between Western and Japanese calendars
 
 `Usage:  
   Era [OPTIONS] Date  
