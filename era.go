@@ -124,8 +124,6 @@ func toJP(y, m, d int, Kanji bool) string {
 		magicNumber = 2018
 	}
 
-	y = y - magicNumber
-
 	if Kanji {
 		if y == 1 {
 			return fmt.Sprintf("%s元年%d月%d日", nameK, m, d)
@@ -155,7 +153,6 @@ func main() {
 		parser.WriteHelp(os.Stdout)
 		os.Exit(1)
 	}
-
 
 	if len(args) != 1 {
 		fmt.Println("There is only one command line argument")
