@@ -83,6 +83,8 @@ func toBC(y, m, d, era int, Kanji bool) string {
 	case 5:
 		magicNumber = 2018
 	}
+	
+	y = y + magicNumber
 
 	if Kanji {
 		return fmt.Sprintf("%d年%d月%d日", y + magicNumber, m, d)
@@ -123,6 +125,8 @@ func toJP(y, m, d int, Kanji bool) string {
 		name = "R"
 		magicNumber = 2018
 	}
+
+	y = y - magicNumber
 
 	if Kanji {
 		if y == 1 {
