@@ -84,8 +84,6 @@ func toBC(y, m, d, era int, Kanji bool) string {
 		magicNumber = 2018
 	}
 	
-	y = y + magicNumber
-
 	if Kanji {
 		return fmt.Sprintf("%d年%d月%d日", y + magicNumber, m, d)
 	} else {
