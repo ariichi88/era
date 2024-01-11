@@ -1,11 +1,17 @@
 # era
-Converts dates alternately between Western and Japanese calendars
+西暦を和暦に和暦を西暦に変換するコマンド  
 
-`Usage:  
-  Era [OPTIONS] Date  
+# インストール要領
+ビルド  
+```
+$ go build era.go
+```
+できたバイナリを任意のパスの通ったディレクトリにコピーしてください  
 
-Application Options:  
-  -k --kanji Returns the date in the format "Ｘ年Ｘ月Ｘ日"  
-
-Help Options:  
-  -h, --help  Show this help message  
+# 使い方
+```
+$ era [オプション] 日付
+```
+> オプション  
+> -k --kanji 日付をXX年XX月XX日のフォーマットで返します  
+> -h --help  ヘルプを表示します 
