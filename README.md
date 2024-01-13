@@ -2,6 +2,10 @@
 西暦を和暦に和暦を西暦に変換するコマンド  
 
 ## インストール要領
+GitHubからクローン
+```
+git clone git@github.com:ariichi88/era.git
+```
 ビルド  
 ```
 $ go build era.go
